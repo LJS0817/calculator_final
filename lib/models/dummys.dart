@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:calculator_final/models/oilContainer.dart';
 import 'package:calculator_final/models/unit.dart';
 import 'package:calculator_final/screens/create_soap.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +95,7 @@ bool isKor = false;
 late Size size;
 
 List<Oil> oils = [];
-List<Map<int, Widget>> containers = [ <int, Widget>{}, <int, Widget>{}, <int, Widget>{}, <int, Widget>{} ];
+List<Map<int, oilContainer>> containers = [ <int, oilContainer>{}, <int, oilContainer>{}, <int, oilContainer>{}, <int, oilContainer>{} ];
 Map oilData = {};
 final TextEditingController nameController = TextEditingController();
 final TextEditingController LyePurityController = TextEditingController();

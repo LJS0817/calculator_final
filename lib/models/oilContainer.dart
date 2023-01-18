@@ -5,18 +5,25 @@ import 'package:flutter/material.dart';
 import 'dummys.dart';
 import 'themeModel.dart';
 
+enum ORDER {
+  E_ONLY,
+  E_FIRST,
+  E_MIDDLE,
+  E_LAST
+}
+
 class oilContainer extends StatelessWidget {
   double weight = 0;
+  ORDER order = ORDER.E_MIDDLE;
   int index = -1;
-  int cur_index = 0;
+
   TextEditingController controller = TextEditingController();
   late Oil data;
   late Function func;
 
   oilContainer(int idx, double w, Function f, {super.key}) {
     weight = w;
-    index = idx == -1 ? index : idx;
-    cur_index = cur_index == 0 ? containers[curIndex - 1].length : cur_index;
+    index = idx;
     data = oils[index];
     func = f;
   }
@@ -54,17 +61,16 @@ class oilContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log( containers[curIndex - 1].length.toString());
-    log( cur_index.toString());
     return Container(
         height: 50,
         margin: const EdgeInsets.only(right: 10, left: 10),
         decoration: BoxDecoration(
           color: themeData.themeColor,
-          borderRadius: cur_index == containers[curIndex - 1].length - 1 ?
+          borderRadius: order == ORDER.E_LAST ?
           BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)) :
-          (cur_index == 0 ? BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)) :
-          BorderRadius.circular(0)),
+          (order == ORDER.E_FIRST ? BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)) :
+          (order == ORDER.E_ONLY ? BorderRadius.circular(10) :
+          BorderRadius.circular(0))),
           boxShadow: [
             BoxShadow(
                 offset: const Offset(0, 10),
@@ -100,6 +106,12 @@ class oilContainer extends StatelessWidget {
             onLongPress: () {
               oilData.remove(index);
               containers[curIndex - 1].remove(index);
+              if(containers[curIndex - 1].length == 1) {
+                containers[curIndex - 1].values.first.order = ORDER.E_ONLY;
+              } else if(containers[curIndex - 1].length > 1) {
+                containers[curIndex - 1].values.first.order = ORDER.E_FIRST;
+                containers[curIndex - 1].values.last.order = ORDER.E_LAST;
+              }
               func();
             },
           ),

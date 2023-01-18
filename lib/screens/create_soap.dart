@@ -103,8 +103,17 @@ class _SoapScreen extends State<SoapScreen> {
                   containers[curIndex - 1].remove(idx);
                 } else {
                   oilData[idx] = true;
+                  if(containers[curIndex - 1].isNotEmpty) {
+                    containers[curIndex - 1].values.last.order = ORDER.E_MIDDLE;
+                  }
                   containers[curIndex - 1][idx] = oilContainer(idx, 0, () {setState(() {});});
+                  containers[curIndex - 1].values.last.order = ORDER.E_LAST;
                   scrollToBottom();
+                  if(containers[curIndex - 1].length == 1) {
+                    containers[curIndex - 1].values.last.order = ORDER.E_ONLY;
+                  } else {
+                    containers[curIndex - 1].values.first.order = ORDER.E_FIRST;
+                  }
                 }
               });
             },
